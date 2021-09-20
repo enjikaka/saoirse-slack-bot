@@ -107,8 +107,8 @@ async function handleEvent(event) {
   }).reduce((a, b) => Object.assign(a, b));
 
   const body = JSON.stringify({
-    'channel': req.body.event.channel,
-    'ts': req.body.event.message_ts,
+    'channel': event.channel,
+    'ts': event.message_ts,
     'unfurls': unfurls
   });
 

@@ -84,10 +84,10 @@ async function handleEvent(event) {
       itunes_id
     } = data;
 
-    const spotifyUrl = `<https://open.spotify.com/${type}/${spotify_id}?play=true|Play on Spotify>`;
+    const spotifyUrl = `<https://open.spotify.com/${type}/${spotify_id}?play=true|Spotify>`;
     const appleMusicUrl = `<https://wt-43e42263dca67ab0063b88edf7ca290e-0.sandbox.auth0-extend.com/apple-music/${type}/${itunes_id}|Apple Music>`;
-    const deezerUrl = `<https://www.deezer.com/${type}/${deezer_id}|Play on Deezer>`;
-    const tidalUrl = `<https://listen.tidal.com/${type}/${tidal_id}?play=true|Play on TIDAL>`;
+    const deezerUrl = `<https://www.deezer.com/${type}/${deezer_id}|Deezer>`;
+    const tidalUrl = `<https://listen.tidal.com/${type}/${tidal_id}?play=true|TIDAL>`;
 
     const text = [
       spotifyUrl,

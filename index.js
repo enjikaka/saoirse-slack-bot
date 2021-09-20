@@ -53,7 +53,7 @@ async function saoirse(link) {
   const response = await fetch(url);
   const data = await response.json();
 
-  if (itunes_id) {
+  if (data.itunes_id) {
     const response = await fetch(`https://itunes.apple.com/lookup?id=${data.itunes_id}&entity=music&country=SE`);
     const json = await response.json();
 

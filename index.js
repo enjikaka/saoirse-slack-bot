@@ -123,6 +123,8 @@ async function handleRequest(request) {
   if (request.method === 'POST') {
     const json = await request.body.json();
 
+    console.log(json);
+
     if (json.challenge) {
       return new Response(json.challenge, {
         status: 200
@@ -132,11 +134,11 @@ async function handleRequest(request) {
     if (json.event && json.event.type === 'link_shared' && json.event.links) {
       return handleEvent(json.event);
     }
-
-    return new Response(null, {
-      status: 500
-    });
   }
+
+  return new Response(null, {
+    status: 500
+  });
 }
 
 addEventListener('fetch', event => event.respondWith(handleRequest(event.request)));

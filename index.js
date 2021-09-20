@@ -53,13 +53,6 @@ async function saoirse(link) {
   const response = await fetch(url);
   const data = await response.json();
 
-  if (data.itunes_id) {
-    const response = await fetch(`https://itunes.apple.com/lookup?id=${data.itunes_id}&entity=music&country=SE`);
-    const json = await response.json();
-
-    console.log(json);
-  }
-
   return { link, data };
 }
 
@@ -93,13 +86,15 @@ async function handleEvent(event) {
     } = data;
 
     const spotifyUrl = `<https://open.spotify.com/${mediaType}/${spotify_id}?play=true|Play on Spotify>`;
-    const tidalUrl = `<https://listen.tidal.com/${mediaType}/${tidal_id}?play=true|Play on TIDAL>`;
+    const appleMusicUrl = `<https://wt-43e42263dca67ab0063b88edf7ca290e-0.sandbox.auth0-extend.com/apple-music/${mediaType}/${itunes_id}|Apple Music>`;
     const deezerUrl = `<https://www.deezer.com/${mediaType}/${deezer_id}|Play on Deezer>`;
+    const tidalUrl = `<https://listen.tidal.com/${mediaType}/${tidal_id}?play=true|Play on TIDAL>`;
 
     const text = [
       spotifyUrl,
-      tidalUrl,
-      deezerUrl
+      appleMusicUrl,
+      deezerUrl,
+      tidalUrl
     ].join(', ');
 
     return {

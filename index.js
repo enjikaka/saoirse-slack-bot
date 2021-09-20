@@ -1,4 +1,4 @@
-function parseLink(text: string): ServiceData {
+function parseLink(text) {
   if (text.indexOf('://') !== -1) {
     const url = new URL(text);
     let type;

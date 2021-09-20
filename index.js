@@ -45,6 +45,8 @@ function parseLink(text) {
 async function saoirse(link) {
   const { service, type, id } = parseLink(link);
 
+  console.log(link, { service, type, id });
+
   if (service === null || type === null || id === null) {
     throw new Error('Could not find song');
   }
@@ -56,8 +58,6 @@ async function saoirse(link) {
 }
 
 async function handleEvent(event) {
-  console.log(handleEvent, event);
-
   const links = event.links.map(({ url }) => url);
   const supportedDomains = [
     'tidal.com',
@@ -81,9 +81,9 @@ async function handleEvent(event) {
     } catch (e) {
       return undefined;
     }
-  }).filter(Boolean));
+  }));
 
-  const unfurls = dataFetches.map(({ link, data }, i) => {
+  const unfurls = dataFetches.filter(Boolean).map(({ link, data }, i) => {
     const [, mediaType] = link.split('://')[1].split('/');
     const {
       name,

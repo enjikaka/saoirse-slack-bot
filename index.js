@@ -121,9 +121,7 @@ async function handleEvent(event) {
 
 async function handleRequest(request) {
   if (request.method === 'POST') {
-    const json = await request.body.json();
-
-    console.log(json);
+    const json = await request.json();
 
     if (json.challenge) {
       return new Response(json.challenge, {

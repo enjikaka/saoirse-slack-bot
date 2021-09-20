@@ -53,7 +53,7 @@ async function saoirse(link) {
   const response = await fetch(url);
   const data = await response.json();
 
-  return { link, data };
+  return { link, type, data };
 }
 
 async function handleEvent(event) {
@@ -74,8 +74,7 @@ async function handleEvent(event) {
 
   const dataFetches = await Promise.all(validLinks.map(saoirse));
 
-  const unfurls = dataFetches.map(({ link, data }, i) => {
-    const [, mediaType] = link.split('://')[1].split('/');
+  const unfurls = dataFetches.map(({ link, data, type }, i) => {
     const {
       name,
       artist,
@@ -85,10 +84,10 @@ async function handleEvent(event) {
       itunes_id
     } = data;
 
-    const spotifyUrl = `<https://open.spotify.com/${mediaType}/${spotify_id}?play=true|Play on Spotify>`;
-    const appleMusicUrl = `<https://wt-43e42263dca67ab0063b88edf7ca290e-0.sandbox.auth0-extend.com/apple-music/${mediaType}/${itunes_id}|Apple Music>`;
-    const deezerUrl = `<https://www.deezer.com/${mediaType}/${deezer_id}|Play on Deezer>`;
-    const tidalUrl = `<https://listen.tidal.com/${mediaType}/${tidal_id}?play=true|Play on TIDAL>`;
+    const spotifyUrl = `<https://open.spotify.com/${type}/${spotify_id}?play=true|Play on Spotify>`;
+    const appleMusicUrl = `<https://wt-43e42263dca67ab0063b88edf7ca290e-0.sandbox.auth0-extend.com/apple-music/${type}/${itunes_id}|Apple Music>`;
+    const deezerUrl = `<https://www.deezer.com/${type}/${deezer_id}|Play on Deezer>`;
+    const tidalUrl = `<https://listen.tidal.com/${type}/${tidal_id}?play=true|Play on TIDAL>`;
 
     const text = [
       spotifyUrl,

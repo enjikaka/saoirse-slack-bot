@@ -1,4 +1,4 @@
-function parseLink(text) {
+function parseLink(text: string): ServiceData {
   if (text.indexOf('://') !== -1) {
     const url = new URL(text);
     let type;
@@ -7,8 +7,13 @@ function parseLink(text) {
 
     [, type, id] = url.pathname.split('/');
 
+    if (url.pathname.indexOf('/browse/') !== -1) {
+      [, , type, id] = url.pathname.split('/');
+    }
+
     switch (url.host) {
       case 'itunes.apple.com':
+      case 'music.apple.com':
         type = url.searchParams.get('i') ? 'track' : 'album';
         id = url.searchParams.get('i');
         service = 'itunes';
@@ -32,22 +37,22 @@ function parseLink(text) {
     if (type && id && service) {
       return { service, id, type };
     }
-
-    return null;
   }
+
+  return { service: null, id: null, type: null };
 }
 
 async function saoirse(link) {
   const { service, type, id } = parseLink(link);
 
-  const url = `https://api.saoir.se/${type}/${service}/${id}`;
-  console.log(url);
-  const response = await fetch();
-  console.log(response);
-  const json = await response.json();
-  console.log(json);
+  if (service === null || type === null || id === null) {
+    throw new Error('Could not find song');
+  }
 
-  return json;
+  const url = `https://api.saoir.se/${type}/${service}/${id}`;
+  const response = await fetch();
+
+  return response.json();
 }
 
 async function handleEvent(event) {
@@ -69,10 +74,14 @@ async function handleEvent(event) {
   });
 
   const dataFetches = await Promise.all(validLinks.map(async link => {
-    const data = await saoirse(link);
+    try {
+      const data = await saoirse(link);
 
-    return { link, data };
-  }));
+      return { link, data };
+    } catch (e) {
+      return undefined;
+    }
+  }).filter(Boolean));
 
   const unfurls = dataFetches.map(({ link, data }, i) => {
     const [, mediaType] = link.split('://')[1].split('/');

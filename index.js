@@ -45,8 +45,6 @@ function parseLink(text) {
 async function saoirse(link) {
   const { service, type, id } = parseLink(link);
 
-  console.log(link, { service, type, id });
-
   if (service === null || type === null || id === null) {
     throw new Error('Could not find song');
   }
@@ -129,8 +127,6 @@ async function handleEvent(event) {
 }
 
 async function handleRequest(request) {
-  console.log(request);
-
   if (request.method === 'POST') {
     const json = await request.json();
 

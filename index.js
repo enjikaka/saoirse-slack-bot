@@ -52,9 +52,10 @@ async function saoirse(link) {
   }
 
   const url = `https://api.saoir.se/${type}/${service}/${id}`;
-  const response = await fetch();
+  const response = await fetch(url);
+  const data = await response.json();
 
-  return response.json();
+  return { link, data };
 }
 
 async function handleEvent(event) {
@@ -73,17 +74,9 @@ async function handleEvent(event) {
       .length > 0;
   });
 
-  const dataFetches = await Promise.all(validLinks.map(async link => {
-    try {
-      const data = await saoirse(link);
+  const dataFetches = await Promise.all(validLinks.map(saoirse));
 
-      return { link, data };
-    } catch (e) {
-      return undefined;
-    }
-  }));
-
-  const unfurls = dataFetches.filter(Boolean).map(({ link, data }, i) => {
+  const unfurls = dataFetches.map(({ link, data }, i) => {
     const [, mediaType] = link.split('://')[1].split('/');
     const {
       name,

@@ -85,7 +85,7 @@ async function handleEvent(event) {
       itunes_id
     } = data;
 
-    const spotifyUrl = `<https://play.spotify.com/${mediaType}/${spotify_id}?play=true|Play on Spotify>`;
+    const spotifyUrl = `<https://open.spotify.com/${mediaType}/${spotify_id}?play=true|Play on Spotify>`;
     const tidalUrl = `<https://listen.tidal.com/${mediaType}/${tidal_id}?play=true|Play on TIDAL>`;
     const deezerUrl = `<https://www.deezer.com/${mediaType}/${deezer_id}|Play on Deezer>`;
 

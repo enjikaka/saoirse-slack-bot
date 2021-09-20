@@ -46,6 +46,8 @@ async function saoirse(link) {
 }
 
 async function handleEvent(event) {
+  console.log(handleEvent, event);
+
   const links = event.links.map(({ url }) => url);
   const supportedDomains = [
     'tidal.com',

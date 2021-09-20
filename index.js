@@ -40,9 +40,14 @@ function parseLink(text) {
 async function saoirse(link) {
   const { service, type, id } = parseLink(link);
 
-  const response = await fetch(`https://api.saoir.se/${type}/${service}/${id}`);
+  const url = `https://api.saoir.se/${type}/${service}/${id}`;
+  console.log(url);
+  const response = await fetch();
+  console.log(response);
+  const json = await response.json();
+  console.log(json);
 
-  return response.json();
+  return json;
 }
 
 async function handleEvent(event) {

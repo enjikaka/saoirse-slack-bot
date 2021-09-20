@@ -122,6 +122,8 @@ async function handleEvent(event) {
 }
 
 async function handleRequest(request) {
+  console.log(request);
+
   if (request.method === 'POST') {
     const json = await request.json();
 
